@@ -1,6 +1,5 @@
 class SudokuSolver {
 
-
   checkRowPlacement(puzzleString, row, column, value) {
       /*  (string) => (boolean)
           returns true if the number does not yet exist in the row.
@@ -53,6 +52,10 @@ class SudokuSolver {
   solve(puzzleString) {
     // Take the puzzleString, make an array out of it and use solveHelper to solve it.
     const puzzleArray = this.stringToArray(puzzleString);
+    if (!this.validate(puzzleString)) {
+      console.error("Invalid Puzzle String");
+      return false;
+    }
     let solvedBoardArray = this.solveHelper(puzzleArray);
     return this.arrayToString(solvedBoardArray);
   }
@@ -138,13 +141,15 @@ class SudokuSolver {
       return boardArray.join("");
   }
 
+  
   validate(puzzleString) {
+    const regex = /^[1-9.]+$/;
+    const regexTest = regex.test(puzzleString);
       // The validate function should take a given puzzle string and check it to see if it has 81 valid characters for the input.
-      if (puzzleString.length === 81 && puzzleString.match(/^[1-9.]+$/)[0].length === 81) {
-        if ( this.showDetails ) console.log("Tested string validity: Valid puzzle string");
+      if (puzzleString.length == 81 && regexTest ) {
         return true;
       } else {
-        if ( this.showDetails ) console.log("Tested string validity: Invalid puzzle string");
+        console.log("Validation in fnct failed", puzzleString);
         return false;
       };
     }
@@ -154,11 +159,14 @@ class SudokuSolver {
 //const puzzleString = "53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79"
 const puzzleString = "53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79"
 
-const solved = "534678912672195348198342567859761423426853791713924856961537284287419635345286179"
+let validPuzzleString = "53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79";
+let validUnsolvablePuzzleString = "..9.25.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..";
+let validButDoublePuzzleString = ".99..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..";
+let tooLongValidPuzzleString = "5...3.3..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79";
+let invalidPuzzleString = "53x.7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79";
+let solvedValidPuzzleString = "534678912672195348198342567859761423426853791713924856961537284287419635345286179";
 
 const sudokuBoard = new SudokuSolver();
-
-let solvedPuzzle = sudokuBoard.solve(puzzleString);
 
 
 /* puzzleString as SodukoBoard

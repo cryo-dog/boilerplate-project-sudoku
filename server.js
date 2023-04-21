@@ -16,6 +16,19 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+// TR: Print all requests to the console
+function logRequests(req, res, next) {
+  console.log('----New request at: ' + req.method + '' + req.url);
+  console.log('Values at 1. body, query, param');
+  console.log(req.body);
+  console.log(req.query);
+  console.log(req.params);
+  next();
+}
+
+app.use(logRequests);
+
 //Index page (static HTML)
 app.route('/')
   .get(function (req, res) {
