@@ -4,6 +4,7 @@ const SudokuSolver = require('../controllers/sudoku-solver.js');
 
 function coordTranslator (coords) { // coords comes e.g. as "C1" RowCol
   let returner;
+  if (coords.length != 2) return false;
   let row = coords[0];
   let col = parseInt( coords[1] );
   col = col - 1;
@@ -83,7 +84,7 @@ module.exports = function (app) {
         
       const {puzzle, coordinate, value} = req.body;
 
-      if (!(parseInt(value) > 0 && parseInt(value) < 10)) {
+      if ((parseInt(value) < 1) || (parseInt(value) > 9) || parseInt(value) != value) {
         console.error("Value is not an integer or outside range");
         res.json({"error": "Invalid value"});
         return;
